@@ -11,6 +11,9 @@ public class ServerHandlerNpcJump extends ServerMessageHandler<PacketNpcJump>
     @Override
     public void run(EntityPlayerMP player, PacketNpcJump message)
     {
+        if (player.getRidingEntity() == null || player.getRidingEntity().getEntityId() != message.entityId) {
+            return;
+        }
         Entity npc = player.world.getEntityByID(message.entityId);
 
         if (npc instanceof EntityNpc)

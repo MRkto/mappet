@@ -5,6 +5,7 @@ import mchorse.mappet.api.npcs.Npc;
 import mchorse.mappet.network.Dispatcher;
 import mchorse.mappet.network.common.npc.PacketNpcList;
 import mchorse.mclib.network.ServerMessageHandler;
+import mchorse.mclib.utils.OpHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.Collections;
@@ -14,8 +15,7 @@ public class ServerHandlerNpcList extends ServerMessageHandler<PacketNpcList>
     @Override
     public void run(EntityPlayerMP player, PacketNpcList message)
     {
-        if (message.npcs.isEmpty())
-        {
+        if (message.npcs.isEmpty() || (Mappet.npcsToolOnlyOP.get() && !OpHelper.isPlayerOp(player)) || (Mappet.npcsToolOnlyCreative.get() && !player.capabilities.isCreativeMode)) {
             return;
         }
 

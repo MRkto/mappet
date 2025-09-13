@@ -3,6 +3,7 @@ package mchorse.mappet.network.server.npc;
 import mchorse.mappet.Mappet;
 import mchorse.mappet.network.common.npc.PacketNpcTool;
 import mchorse.mclib.network.ServerMessageHandler;
+import mchorse.mclib.utils.OpHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +13,9 @@ public class ServerHandlerNpcTool extends ServerMessageHandler<PacketNpcTool>
     @Override
     public void run(EntityPlayerMP player, PacketNpcTool message)
     {
+        if ((Mappet.npcsToolOnlyOP.get() && !OpHelper.isPlayerOp(player)) || (Mappet.npcsToolOnlyCreative.get() && !player.capabilities.isCreativeMode)) {
+            return;
+        }
         ItemStack stack = player.getHeldItemMainhand();
 
         if (stack.getItem() == Mappet.npcTool)
